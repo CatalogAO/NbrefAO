@@ -1,0 +1,6 @@
+node_modules/
+.nbref-ao/
+*.log
+.env
+.env.local
+dist/
