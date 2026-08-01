@@ -5,10 +5,6 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/nbrefao"><img alt="npm" src="https://img.shields.io/npm/v/nbrefao?style=flat-square" /></a>
-  <a href="https://github.com/<you>/nbrefao/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/<you>/nbrefao/publish.yml?style=flat-square" /></a>
-  <a href="./LICENSE"><img alt="License" src="https://img.shields.io/npm/l/nbrefao?style=flat-square" /></a>
-</p>
-
 <p align="center">
   <a href="https://discord.gg/JsDd96nqb2"><img alt="Discord" src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" /></a>
   <a href="https://x.com/CatalogAO"><img alt="X" src="https://img.shields.io/badge/X-@CatalogAO-000000?style=flat-square&logo=x&logoColor=white" /></a>
