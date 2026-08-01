@@ -1,5 +1,6 @@
 <p align="center">
   <b>Nbref AO</b>
+  ![CatalogAO](20260731_225624.jpg)
 </p>
 <p align="center">A terminal AI CLI with installable skills, real tool execution, and multi-provider model support.</p>
 
