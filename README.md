@@ -1,33 +1,184 @@
-# Nbref AO
+<p align="center">
+  <b>Nbref AO</b>
+</p>
+<p align="center">A terminal AI CLI with installable skills, real tool execution, and multi-provider model support.</p>
 
-A terminal AI chat CLI with installable skills (executable workflows, not
-just docs), real tool-calling (read/write files, run shell commands,
-browser automation), World/Build mode gating, and support for 6
-providers: Groq, OpenRouter, OpenAI, Anthropic, Gemini, DeepSeek.
+<p align="center">
+  <a href="https://www.npmjs.com/package/nbrefao"><img alt="npm" src="https://img.shields.io/npm/v/nbrefao?style=flat-square" /></a>
+  <a href="https://github.com/<you>/nbrefao/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/<you>/nbrefao/publish.yml?style=flat-square" /></a>
+  <a href="./LICENSE"><img alt="License" src="https://img.shields.io/npm/l/nbrefao?style=flat-square" /></a>
+</p>
 
-## Install
+<p align="center">
+  <a href="https://discord.gg/JsDd96nqb2"><img alt="Discord" src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" /></a>
+  <a href="https://x.com/CatalogAO"><img alt="X" src="https://img.shields.io/badge/X-@CatalogAO-000000?style=flat-square&logo=x&logoColor=white" /></a>
+</p>
+
+---
+
+Nbref AO (**AO**) is a terminal AI CLI. Point it at a project, chat with
+it directly, or install a **skill** — an executable workflow, not just
+documentation — and it reads the workflow, then carries it out: reading
+and writing files, running shell commands, and (optionally) driving a
+real browser to inspect a page.
+
+### Installation
 
 ```bash
-npm install
-npx playwright install chromium   # optional — only needed for browser tools
+npm install -g nbrefao
 ```
 
-## Run
+Then run it from anywhere:
 
 ```bash
-npm start
+nbrefao
 ```
 
-On first run you'll be asked to pick a provider, model, and enter an API
-key (or set one via environment variable beforehand, e.g. `GROQ_API_KEY`).
-Setup is remembered after that — you won't be asked again on the next run.
+Or without installing globally:
 
-## Environment variables
+```bash
+npx nbrefao
+```
+
+Open directly in a specific project instead of `cd`-ing there first:
+
+```bash
+nbrefao ~/projects/my-app
+```
+
+Optional — only needed for skills that use browser tools (screenshots, page inspection):
+
+```bash
+npx playwright install chromium
+```
+
+> [!TIP]
+> On first run you'll be asked to pick a provider, model, and enter an
+> API key. That's remembered locally after that — you won't be asked
+> again on future runs.
+
+### Modes
+
+AO includes two modes you switch between with **Ctrl+A**:
+
+- **World** — default, read-only. AO can read files, list folders,
+  fetch URLs, and browse pages to analyze and plan — but won't write,
+  edit, or delete anything, and won't run shell commands.
+- **Build** — full access. AO can create/edit/delete files, run shell
+  commands (`npm install`, `git`, build scripts, ...), and drive a
+  browser, all without asking for confirmation except for actions that
+  are destructive, irreversible, cost money, or need information
+  that's genuinely missing.
+
+A skill invoked in Build mode executes autonomously end-to-end; the
+same skill invoked in World mode only analyzes and proposes a plan.
+
+### Skills
+
+Skills aren't slash commands you memorize — they're workflows you
+install from a link:
+
+```
+install skill ini https://github.com/owner/some-skill-repo
+```
+
+AO explores the repo itself (there's no fixed file-naming convention
+it assumes), reads the real workflow, and registers whatever command
+it exposes. `/skills` shows everything installed so far this session.
+
+### Commands
+
+Run `/help` inside AO for the full list. Highlights:
+
+| Command | What it does |
+| --- | --- |
+| `/model`, `/provider` | Switch AI provider/model |
+| `/skills`, `/install <link>` | View or install a skill |
+| `/cd <path>` | Change the active project directory |
+| `/new`, `/save`, `/load`, `/history`, `/search` | Conversation management |
+| `/config`, `/theme`, `/memory` | Preferences |
+| `/doctor` | Diagnose setup issues (API key, storage, Playwright) |
+
+### Providers
+
+Groq · OpenRouter · OpenAI · Anthropic · Gemini · DeepSeek
 
 | Provider | Env var |
-|---|---|
+| --- | --- |
 | Groq | `GROQ_API_KEY` |
 | OpenRouter | `OPENROUTER_API_KEY` |
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Gemini | `GEMINI_API_KEY` |
+| DeepSeek | `DEEPSEEK_API_KEY` |
+
+> [!NOTE]
+> Anthropic support currently covers plain chat only — tool execution
+> (Build mode, skills) isn't wired up for its native API format yet.
+
+### ⚠️ Security
+
+- **API keys are stored in plaintext** in `.nbref-ao/config.json`
+  (local only, gitignored) so you're not asked for them every run.
+  Don't commit that folder.
+- **Build mode can run arbitrary shell commands** and is instructed to
+  act autonomously without asking permission for non-destructive
+  steps. Only use it on projects/machines you're comfortable giving an
+  AI agent write + shell access to.
+- **Installing a skill fetches and runs instructions from a URL you
+  provide.** Treat skill sources the way you'd treat running someone
+  else's script — only install from sources you trust.
+
+### Development
+
+Only needed if you're modifying AO itself, not for regular use:
+
+```bash
+git clone https://github.com/<you>/nbrefao.git
+cd nbrefao
+npm install
+npm run dev
+```
+
+```bash
+npm run typecheck   # tsc --noEmit
+npm run build        # compiles src/ -> dist/
+```
+
+### Releasing
+
+Publishing to npm happens via GitHub Actions when a release is published:
+
+1. Bump `"version"` in `package.json`, commit it.
+2. `git tag vX.Y.Z && git push --tags`
+3. Create a GitHub Release from that tag.
+
+Requires an `NPM_TOKEN` secret set on the repo (npmjs.com → Access
+Tokens → Automation).
+
+### Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+### Building on AO
+
+If your project uses AO and includes "nbrefao"/"AO" as part of its
+name — for example "ao-dashboard" — please note in your README that
+it's not built by this project and isn't affiliated with it.
+
+### Not intended for
+
+Phishing, impersonation, scraping sites that prohibit it, or passing
+off cloned designs as your own.
+
+---
+
+<p align="center">
+  <b>Join the community</b><br/>
+  <a href="https://discord.gg/JsDd96nqb2">Discord</a> · <a href="https://x.com/CatalogAO">X</a>
+</p>
+
+<p align="center">MIT License</p>
 | OpenAI | `OPENAI_API_KEY` |
 | Anthropic | `ANTHROPIC_API_KEY` |
 | Gemini | `GEMINI_API_KEY` |
